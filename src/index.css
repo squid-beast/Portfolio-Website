@@ -29,6 +29,28 @@ body {
   section {
     scroll-margin-top: 80px;
   }
+  
+  /* Header mobile improvements */
+  nav {
+    padding: 0.5rem 0;
+  }
+  
+  /* Better navigation spacing on mobile */
+  .nav-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Contact dropdown mobile positioning */
+  .contact-dropdown {
+    position: relative;
+  }
+  
+  .contact-dropdown .dropdown-menu {
+    right: 0;
+    left: auto;
+    min-width: 160px;
+  }
 }
 
 /* Prevent horizontal scroll on mobile */
@@ -273,4 +295,86 @@ body {
 /* Text shadow utility */
 .text-shadow-sm {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Header specific styles */
+.nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.nav-item:hover::before {
+  left: 100%;
+}
+
+/* Active navigation item styling */
+.nav-item.active {
+  position: relative;
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+/* Contact dropdown improvements */
+.contact-dropdown .dropdown-menu {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark mode toggle animation */
+.dark-mode-toggle {
+  transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  transform: rotate(180deg);
+}
+
+/* Header backdrop blur enhancement */
+nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Better focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+button,
+a {
+  transition: all 0.2s ease-in-out;
 }
