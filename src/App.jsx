@@ -121,9 +121,8 @@ function App() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3 sm:py-4">
             {/* Left side - Navigation items */}
-            <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
+            <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 overflow-x-auto max-w-[65%] sm:max-w-none whitespace-nowrap">
               {useMemo(() => [
-                { id: 'home', label: 'Home' },
                 { id: 'summary', label: 'Summary' },
                 { id: 'skills', label: 'Skills' },
                 { id: 'work', label: 'Work' },
@@ -144,7 +143,7 @@ function App() {
             </div>
             
             {/* Right side - Contact and Dark Mode */}
-            <div className="flex items-center space-x-1 sm:space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
               {/* Contact Dropdown */}
               <div className="relative contact-dropdown z-50">
                 <button
