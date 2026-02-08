@@ -96,9 +96,10 @@ const Home = ({ isDarkMode, toggleDarkMode }) => {
               onClick={goPrev}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className={`absolute left-8 sm:left-14 md:left-20 z-20 text-xs tracking-wider transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center ${
+              aria-label="Previous project"
+              className={`absolute left-8 sm:left-14 md:left-20 z-20 text-xs tracking-wider transition-colors min-h-[44px] min-w-[44px] items-center justify-center ${
                 isDarkMode ? 'text-gray-600 hover:text-gray-300' : 'text-gray-400 hover:text-gray-900'
-              }`}
+              } hidden sm:flex`}
             >
               {'<'}
             </motion.button>
@@ -125,9 +126,10 @@ const Home = ({ isDarkMode, toggleDarkMode }) => {
               onClick={goNext}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className={`absolute right-8 sm:right-14 md:right-20 z-20 text-xs tracking-wider transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center ${
+              aria-label="Next project"
+              className={`absolute right-8 sm:right-14 md:right-20 z-20 text-xs tracking-wider transition-colors min-h-[44px] min-w-[44px] items-center justify-center ${
                 isDarkMode ? 'text-gray-600 hover:text-gray-300' : 'text-gray-400 hover:text-gray-900'
-              }`}
+              } hidden sm:flex`}
             >
               {'>'}
             </motion.button>
