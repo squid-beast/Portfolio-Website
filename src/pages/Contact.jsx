@@ -135,7 +135,7 @@ const Contact = ({ isDarkMode }) => {
             ( X )
           </motion.a>
           <motion.a
-            href="https://drive.google.com/file/d/1YVAyZdpdG5s9Zz46DEMOCh7DR0cKJjU9/view?usp=sharing"
+            href="https://drive.google.com/file/d/1yimjYNMiQPl_1neOWEFRB1xKDUhYdd6b/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.02 }}
