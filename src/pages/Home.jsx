@@ -9,7 +9,7 @@ const projects = [
     image: '/projects/verdict-ai.png',
   },
   {
-    name: 'NO NAME',
+    name: 'RECEIVLY',
     date: 'COMING SOON',
     description: 'MICRO AND SMALL BUSINESSES WASTE ADMINISTRATIVE TIME ON MANUAL INVOICING BECAUSE ENTERPRISE ERP SYSTEMS ARE COSTLY, COMPLEX, AND HARD TO ADOPT.',
     image: null,
