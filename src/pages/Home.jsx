@@ -10,9 +10,17 @@ const projects = [
   },
   {
     name: 'RECEIVLY',
-    date: 'COMING SOON',
+    date: '',
     description: 'MICRO AND SMALL BUSINESSES WASTE ADMINISTRATIVE TIME ON MANUAL INVOICING BECAUSE ENTERPRISE ERP SYSTEMS ARE COSTLY, COMPLEX, AND HARD TO ADOPT.',
-    image: null,
+    image: '/projects/receivly.jpg',
+    liveDemo: 'https://www.getreceivly.com/',
+  },
+  {
+    name: 'EXPENSUM',
+    date: '',
+    description: 'AN EXPENSE MANAGEMENT APP DESIGNED TO MAKE TRACKING SPEND AND RECEIPTS FRUSTRATION-FREE FOR BUSY TEAMS.',
+    image: '/projects/expensum.png',
+    liveDemo: 'https://expensum-app.com/',
   },
 ]
 
@@ -59,7 +67,18 @@ const Home = ({ isDarkMode, toggleDarkMode }) => {
                   <span className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
                     <span>{project.name}</span>
                     <span className={isDarkMode ? 'text-gray-600' : 'text-gray-400'}>
-                      {project.date}
+                      {project.liveDemo ? (
+                        <a
+                          href={project.liveDemo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline underline-offset-2"
+                        >
+                          LIVE DEMO
+                        </a>
+                      ) : (
+                        project.date
+                      )}
                     </span>
                   </span>
                 </button>
@@ -145,17 +164,27 @@ const Home = ({ isDarkMode, toggleDarkMode }) => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               >
-                {/* Image: full screenshot, no crop. Placeholder: same-height box */}
-                <div className={`border overflow-hidden ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} ${current.image ? '' : 'aspect-[16/10]'}`}>
+                {/* Image: consistent aspect ratio for all projects */}
+                <div className={`border overflow-hidden aspect-[16/10] ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
                   {current.image ? (
-                    <img
-                      src={current.image}
-                      alt={current.name}
-                      className="w-full block"
-                    />
+                    current.liveDemo ? (
+                      <a href={current.liveDemo} target="_blank" rel="noopener noreferrer">
+                        <img
+                          src={current.image}
+                          alt={current.name}
+                          className="w-full h-full block object-contain"
+                        />
+                      </a>
+                    ) : (
+                      <img
+                        src={current.image}
+                        alt={current.name}
+                        className="w-full h-full block object-contain"
+                      />
+                    )
                   ) : (
                     <div
-                      className={`w-full h-full min-h-[10rem] flex items-center justify-center text-xs tracking-widest aspect-[16/10] ${
+                      className={`w-full h-full min-h-[10rem] flex items-center justify-center text-xs tracking-widest ${
                         isDarkMode ? 'text-gray-700' : 'text-gray-300'
                       }`}
                     >
@@ -165,17 +194,33 @@ const Home = ({ isDarkMode, toggleDarkMode }) => {
                 </div>
                 {/* Info block: same padding and alignment for every project */}
                 <div className="mt-5 grid grid-cols-1 sm:grid-cols-[auto_1fr] sm:gap-6 gap-3 items-start">
-                  <div className="min-w-0">
-                    <p className={`text-xs tracking-wider ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-800'
-                    }`}>
-                      {current.name}
-                    </p>
-                    <p className={`text-xs tracking-wider mt-0.5 ${
-                      isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                    }`}>
-                      {current.date}
-                    </p>
+                  <div className="min-w-0 space-y-2">
+                    <div>
+                      <p className={`text-xs tracking-wider ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-800'
+                      }`}>
+                        {current.name}
+                      </p>
+                      <p className={`text-xs tracking-wider mt-0.5 ${
+                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                      }`}>
+                        {current.date}
+                      </p>
+                    </div>
+                    {current.liveDemo && (
+                      <a
+                        href={current.liveDemo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center text-[0.7rem] tracking-wider uppercase border px-3 py-1 rounded-full transition-colors ${
+                          isDarkMode
+                            ? 'border-gray-700 text-gray-200 hover:bg-gray-800'
+                            : 'border-gray-300 text-gray-800 hover:bg-gray-100'
+                        }`}
+                      >
+                        LIVE DEMO
+                      </a>
+                    )}
                   </div>
                   <p className={`text-xs tracking-wide leading-relaxed sm:text-right min-h-[2.75rem] max-w-full sm:max-w-sm break-words ${
                     isDarkMode ? 'text-gray-500' : 'text-gray-500'
