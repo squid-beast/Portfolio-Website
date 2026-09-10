@@ -2,8 +2,9 @@
 import { createElement, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 /* Text that decodes into place: every glyph cycles through noise and settles left to right.
-   The real text is always in the DOM and sizes the box. While decoding, a single-line copy
-   sits on top, clipped to the box, so it can never spill into what comes after. */
+   The real text is always in the DOM, sizes the box and keeps its accessible name: while
+   decoding it turns transparent rather than hidden, and a single-line copy sits on top,
+   clipped to the box, so it can never spill into what comes after. */
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+/<>=";
 
@@ -87,7 +88,7 @@ export default function Scramble({ text, as = "span", trigger = "view", hoverPar
   return createElement(
     as,
     { ref, className: `relative inline-block ${className}`, style: { overflowX: "clip", overflowY: "visible" } },
-    <span className={active ? "invisible" : undefined}>{text}</span>,
+    <span className={active ? "text-transparent" : undefined}>{text}</span>,
     active ? (
       <span aria-hidden="true" className="absolute inset-0 whitespace-nowrap">
         {display}

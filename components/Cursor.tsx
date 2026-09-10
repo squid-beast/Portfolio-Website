@@ -2,13 +2,15 @@
 import { useEffect, useRef } from "react";
 
 /* A ring that trails the pointer and a dot that does not. Mouse and trackpad only:
-   touch devices never see it, and the native cursor comes back if JS is off. */
+   touch devices never see it, reduced-motion users keep the native cursor, and it
+   never mounts without JS. */
 export default function Cursor() {
   const ring = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const r = ring.current;
     const d = dot.current;
     if (!r || !d) return;

@@ -36,7 +36,6 @@
     font-size: 1.125rem;
     line-height: 1.55;
     text-rendering: optimizeLegibility;
-    transition: color 0.5s ease;
   }
   ::selection { background: var(--fg); color: var(--sky); }
   :focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
