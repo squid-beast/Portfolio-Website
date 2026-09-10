@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+/* Colours are set by the scroll-driven sky (components/Sky.tsx). These are the daytime defaults
+   and the no-JS fallback. Flat colours only. */
+:root {
+  --sky: #f3ecdd;
+  --ground: #e6dcc6;
+  --fg: #171411;
+  --fg-2: rgba(23, 20, 17, 0.72);
+  --line: rgba(23, 20, 17, 0.18);
+  --disc: #ff6a2a;
+  --dot: #2bd67b;
+}
+
+@theme inline {
+  --color-sky: var(--sky);
+  --color-ground: var(--ground);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-line: var(--line);
+  --color-disc: var(--disc);
+  --font-display: var(--font-hanken), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: var(--font-hanken), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--sky);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
+    transition: color 0.5s ease;
+  }
+  ::selection { background: var(--fg); color: var(--sky); }
+  :focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
+
+@layer components {
+  /* type */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    text-wrap: balance;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-2);
+  }
+  .lede {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .prose { max-width: 62ch; }
+  .prose p + p { margin-top: 1em; }
+
+  /* controls: mono pills, like a capabilities deck button */
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 46px;
+    padding: 0 1.25rem;
+    border: 1.5px solid var(--fg);
+    border-radius: 999px;
+    color: var(--fg);
+    background: transparent;
+    text-decoration: none;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .btn:hover { background: var(--fg); color: var(--sky); }
+  .btn-primary { background: var(--fg); color: var(--sky); }
+  .btn-primary:hover { background: var(--disc); border-color: var(--disc); color: #171411; }
+
+  .textlink {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-bottom: 1px solid transparent;
+    transition: opacity 0.15s;
+  }
+  .textlink:hover { opacity: 0.6; }
+
+  /* the big faint numerals behind each scene: a depth layer that drifts slower than the page */
+  .numeral {
+    position: absolute;
+    right: 0;
+    top: -0.45em;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    font-size: clamp(7rem, 24vw, 19rem);
+    line-height: 1;
+    color: var(--fg);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+  }
+  .numeral::before { content: attr(data-n); }
+
+  .rule { height: 1px; background: var(--line); transform-origin: left center; }
+
+  /* a scene's stack shows only when you ask for it */
+  .scene .stack { display: none; }
+  @media (hover: hover) {
+    .scene .stack { display: block; opacity: 0; transition: opacity 0.25s; }
+    .scene:hover .stack, .scene:focus-within .stack { opacity: 1; }
+  }
+
+  /* cursor: a ring that trails, a dot that leads */
+  .has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+  .cursor-ring, .cursor-dot {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 60;
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform;
+  }
+  .cursor-ring {
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--fg);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+  }
+  .cursor-ring.is-link { width: 56px; height: 56px; }
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--dot);
+    transition: opacity 0.2s;
+  }
+
+  /* the email button sends out a ring now and then */
+  .ping { position: relative; display: inline-block; }
+  .ping::before, .ping::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    border: 1.5px solid var(--fg);
+    pointer-events: none;
+    opacity: 0;
+    animation: ping 3.2s cubic-bezier(0.2, 0.6, 0.2, 1) infinite;
+  }
+  .ping::after { animation-delay: 1.6s; }
+  @keyframes ping {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.35); opacity: 0; }
+  }
+
+  /* motion: load */
+  @keyframes up {
+    from { transform: translateY(110%); }
+    to { transform: none; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes drift {
+    from { transform: translateY(5rem); }
+    to { transform: translateY(-5rem); }
+  }
+  .letters .word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+  .letters .word + .word { margin-left: 0.22em; }
+  .letters .word span {
+    display: inline-block;
+    animation: up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 38ms + 120ms);
+  }
+  .rise {
+    animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* motion: scroll-driven, CSS only, silently absent where unsupported */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 14rem;
+    }
+    .rule {
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 10rem;
+    }
+    .drift {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .letters .word span, .rise, .reveal, .rule, .drift, .ping::before, .ping::after { animation: none !important; }
+    .cursor-ring { transition: none; }
+  }
+}
